@@ -19,8 +19,9 @@ import javax.persistence.Table;
 @SqlResultSetMapping (
 		name = "ProfNameAndDeptName",
 		columns = { 
-				@ColumnResult(name = "PROF_ID"),
+				// Permet de changer l'ordre des colonnes ou mapper un sous-ensemble des colonnes 
 				@ColumnResult(name = "PROF_NAME"),
+				//@ColumnResult(name = "PROF_ID"), 
 			    @ColumnResult(name = "DEP_NAME") 
 		}
 	)

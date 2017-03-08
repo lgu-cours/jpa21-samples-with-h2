@@ -208,6 +208,23 @@ public class QueryNativeTest extends OneEntityManagerForEachTest {
 	@Test 
 	public void test22_mapping_join_with_SqlResultSetMapping_Columns() {
 		EntityManager em = getEntityManager();
+		
+		em.getTransaction().begin();
+		
+		DepartmentEntity dep1 = new DepartmentEntity();
+		dep1.setId(1);
+		dep1.setName("Department1");
+		em.persist(dep1);
+
+		ProfessorEntity prof1 = new ProfessorEntity();
+		prof1.setId(1);
+		prof1.setName("Prof1");
+		prof1.setDepartment(dep1);
+		
+		em.persist(prof1);
+		
+		em.getTransaction().commit();
+		
 		System.out.println("Test : query ...");
 		
 		String SQL = "SELECT " 

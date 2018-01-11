@@ -33,6 +33,7 @@ public class UpdateTests {
 		
 		testUpdate1(em);
 		testUpdate2(em);
+		testUpdate3(em);
 		
 		Helper.finished(em);
 	}
@@ -127,5 +128,39 @@ public class UpdateTests {
 		log("find : " + em.find(CountryEntity.class, "UK") );
 	}
 
+	public static void testUpdate3(EntityManager em ) {
+		log("----- testUpdate3 ...");
+
+		CountryEntity country = new CountryEntity();
+		country.setCode("FR");
+		country.setName("France (updated again)");
+		
+		update(em, country);
+		
+		update(em, country);
+		update(em, country);
+		if ( update(em, country) ) {
+			log("Found and updated" );
+		}
+		else {
+			log("Not found and not updated");
+		}
+
+		log("find : " + em.find(CountryEntity.class, "FR") );
+	}
 	
+	public static boolean update(EntityManager em, CountryEntity country) {
+		log("update(" + country +")...");
+		if ( em.find(CountryEntity.class, country.getCode()) != null ) {
+			// Exists 
+			em.getTransaction().begin();
+			em.merge(country); // Update in memory if different 
+			em.getTransaction().commit(); // SQL UPDATE if changes
+			return true ; // Updated
+		}
+		else {
+			return false; // Not updated (not found)
+		}
+	}
+
 }
